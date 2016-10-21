@@ -45,9 +45,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -501,7 +503,7 @@ public class VdldocGenerator {
 
 		// If debug enabled, output the resulting document, as a test:
 		if (DEBUG_INPUT_DOCUMENT) {
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			Transformer transformer = transformerFactoryNewInstance().newTransformer();
 			transformer.transform(new DOMSource(summaryDocument), new StreamResult(System.out));
 		}
 	}
@@ -692,7 +694,7 @@ public class VdldocGenerator {
 		throws TransformerException
 	{
 		InputStream xsl = getResourceAsStream(inputXSL);
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(xsl));
+		Transformer transformer = transformerFactoryNewInstance().newTransformer(new StreamSource(xsl));
 
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			transformer.setParameter(entry.getKey(), entry.getValue());
@@ -917,6 +919,21 @@ public class VdldocGenerator {
 	private void println(String message) {
 		if (!quiet) {
 			System.out.println(message);
+		}
+	}
+
+	private TransformerFactory transformerFactoryNewInstance() {
+
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		transformerFactory.setURIResolver(new XSLResourceURIResolver());
+		return transformerFactory;
+	}
+
+	private class XSLResourceURIResolver implements URIResolver {
+
+		@Override
+		public Source resolve(String href, String base) throws TransformerException {
+			return new StreamSource(VdldocGenerator.class.getResourceAsStream("/org/omnifaces/vdldoc/resources/" + href));
 		}
 	}
 

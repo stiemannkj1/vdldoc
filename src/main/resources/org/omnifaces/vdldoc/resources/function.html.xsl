@@ -24,7 +24,7 @@
 -->
 
 <!--
- - Creates the function detail page (right frame), listing the known information for a given function in a tag library.
+ - Creates the function detail page, listing the known information for a given function in a tag library.
  -
  - @author Bauke Scholtz
 -->
@@ -72,6 +72,7 @@
 							<xsl:value-of select="/javaee:vdldoc/javaee:config/@subfolder-css-location" />
 						</xsl:attribute>
 					</link>
+					<!--<xsl:include href="sidebar-styles.html.xsl" />-->
 				</head>
 				<body>
 					<noscript>
@@ -124,6 +125,10 @@
 						<h2 class="title">
 							Function <xsl:value-of select="javaee:function-name" />
 						</h2>
+					</div>
+
+					<div class="sidebar">
+						<xsl:include href="sidebar.html.xsl" />
 					</div>
 
 					<div class="contentContainer">

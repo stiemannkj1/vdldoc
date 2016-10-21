@@ -24,7 +24,7 @@
 -->
 
 <!--
- - Creates the tag detail page (right frame), listing the known information for a given tag in a tag library.
+ - Creates the EL variable detail page, listing the known information for a given tag in a tag library.
  -
  - @author Bauke Scholtz
 -->
@@ -74,6 +74,7 @@
 							<xsl:value-of select="/javaee:vdldoc/javaee:config/@subfolder-css-location" />
 						</xsl:attribute>
 					</link>
+					<!--<xsl:include href="sidebar-styles.html.xsl" />-->
 				</head>
 				<body>
 					<noscript>
@@ -118,6 +119,10 @@
 						<a name="skip-navbar_top"></a>
 					</div>
 					<!-- ========= END OF TOP NAVBAR ========= -->
+
+					<div class="sidebar">
+						<xsl:include href="sidebar.html.xsl" />
+					</div>
 
 					<div class="header">
 						<h1 title="Library" class="title">

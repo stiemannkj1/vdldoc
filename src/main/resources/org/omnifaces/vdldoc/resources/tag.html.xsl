@@ -39,6 +39,8 @@
 		doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/html4/loose.dtd" />
 
+	<xsl:include href="sidebar.html.xsl" />
+
 	<xsl:param name="id">
 		default
 	</xsl:param>
@@ -74,6 +76,7 @@
 							<xsl:value-of select="/javaee:vdldoc/javaee:config/@subfolder-css-location" />
 						</xsl:attribute>
 					</link>
+					<xsl:call-template name="sidebar-styles" />
 				</head>
 				<body>
 					<noscript>
@@ -92,174 +95,158 @@
 							<li><a href="../help-doc.html">Help</a></li>
 						</ul>
 					</div>
-					<div class="subNav">
-						<ul class="navList">
-							<li>
-								<a target="_top">
-									<xsl:attribute name="href">../index.html?<xsl:value-of select="$id" />/<xsl:value-of select="javaee:tag-name" />.html</xsl:attribute>
-									Frames
-								</a>
-							</li>
-							<li>
-								<a target="_top">
-									<xsl:attribute name="href"><xsl:value-of select="javaee:tag-name" />.html</xsl:attribute>
-									No Frames
-								</a>
-							</li>
-						</ul>
-						<ul class="navList" id="alltags_navbar_top">
-							<li><a href="../alltags-noframe.html">All Tags</a></li>
-						</ul>
-						<div>
-							<script type="text/javascript">
-								document.getElementById("alltags_navbar_top").style.display = (window == top) ? "block" : "none";
-							</script>
-						</div>
-						<a name="skip-navbar_top"></a>
-					</div>
 					<!-- ========= END OF TOP NAVBAR ========= -->
 
-					<div class="header">
-						<h1 title="Library" class="title">
-							<xsl:value-of select="$id" />
-						</h1>
-						<h2 class="title">
-							Tag
-							<xsl:choose>
-								<!-- vdldoc:deprecation is deprecated. It has been replaced by vdldoc:deprecated. -->
-								<xsl:when test="javaee:tag-extension/vdldoc:deprecated or javaee:tag-extension/vdldoc:deprecation/vdldoc:deprecated = 'true'">
-									<del>
-										<xsl:value-of select="javaee:tag-name" />
-									</del>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="javaee:tag-name" />
-								</xsl:otherwise>
-							</xsl:choose>
-						</h2>
-					</div>
+					<div>
+						<xsl:call-template name="sidebar" />
 
-					<div class="contentContainer">
+						<div class="mainContent">
 
-						<!-- Tag Information -->
-						<div class="description">
-							<ul class="blockList">
-								<li class="blockList">
-									<dl>
-										<dt>Description:</dt>
-										<dd>
-											<div class="block">
-												<!-- vdldoc:deprecation is deprecated. It has been replaced by vdldoc:deprecated. -->
-												<xsl:if test="javaee:tag-extension/vdldoc:deprecated or javaee:tag-extension/vdldoc:deprecation/vdldoc:deprecated = 'true'">
-													<b>Deprecated. </b>
-													<xsl:choose>
-														<xsl:when test="javaee:tag-extension/vdldoc:deprecated">
-															<xsl:value-of select="javaee:tag-extension/vdldoc:deprecated" />
-														</xsl:when>
-														<!-- vdldoc:deprecation is deprecated. It has been replaced by vdldoc:deprecated. -->
-														<xsl:when test="javaee:tag-extension/vdldoc:deprecation/vdldoc:deprecated = 'true'">
-															<xsl:value-of select="javaee:tag-extension/vdldoc:deprecation/vdldoc:description" />
-														</xsl:when>
-													</xsl:choose>
-													<xsl:text>&#160;</xsl:text>
-												</xsl:if>
-												<xsl:choose>
-													<xsl:when test="normalize-space(javaee:description)">
-														<xsl:value-of select="javaee:description" disable-output-escaping="yes" />
-													</xsl:when>
-													<xsl:otherwise>
-														<i>No Description</i>
-													</xsl:otherwise>
-												</xsl:choose>
-											</div>
-										</dd>
-									</dl>
-								</li>
-							</ul>
-						</div>
-
-						<xsl:if test="normalize-space(javaee:tag-extension/vdldoc:since)">
-							<div class="since">
-								<ul class="blockList">
-									<li class="blockList">
-										<dl>
-											<dt>Since:</dt>
-											<dd>
-												<xsl:value-of select="javaee:tag-extension/vdldoc:since" disable-output-escaping="yes" />
-											</dd>
-										</dl>
-									</li>
-								</ul>
-							</div>
-						</xsl:if>
-
-						<xsl:if test="normalize-space(javaee:tag-extension/vdldoc:example-url)">
-							<div class="example-url">
-								<ul class="blockList">
-									<li class="blockList">
-										<dl>
-											<dt>Example usage of this component can be found at:</dt>
-											<br />
-											<dd>
-												<a href="{javaee:tag-extension/vdldoc:example-url}" target="_blank">
-													<xsl:value-of select="javaee:tag-extension/vdldoc:example-url" disable-output-escaping="yes" />
-												</a>
-											</dd>
-										</dl>
-									</li>
-								</ul>
-							</div>
-						</xsl:if>
-
-						<!-- Component Information -->
-						<xsl:if test="normalize-space(javaee:component)">
-							<xsl:apply-templates select="javaee:component" />
-						</xsl:if>
-
-						<!-- Behavior Information -->
-						<xsl:if test="normalize-space(javaee:behavior)">
-							<xsl:apply-templates select="javaee:behavior" />
-						</xsl:if>
-
-						<!-- Converter Information -->
-						<xsl:if test="normalize-space(javaee:converter)">
-							<xsl:apply-templates select="javaee:converter" />
-						</xsl:if>
-
-						<!-- Validator Information -->
-						<xsl:if test="normalize-space(javaee:validator)">
-							<xsl:apply-templates select="javaee:validator" />
-						</xsl:if>
-
-						<!-- Attribute Information -->
-						<div class="summary">
-							<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Attribute summary table, listing attribute information">
-								<caption>
-									<span>Attributes</span>
-									<span class="tabEnd">&#160;</span>
-								</caption>
-								<thead>
-									<tr>
-										<th class="colFirst">Name</th>
-										<th class="colOne">Required</th>
-										<th class="colOne">Type</th>
-										<th class="colLast">Description</th>
-									</tr>
-								</thead>
-								<tbody>
+							<div class="header">
+								<h1 title="Library" class="title">
+									<xsl:value-of select="$id" />
+								</h1>
+								<h2 class="title">
+									Tag
 									<xsl:choose>
-										<xsl:when test="count(javaee:attribute) > 0">
-											<xsl:apply-templates select="javaee:attribute" />
+										<!-- vdldoc:deprecation is deprecated. It has been replaced by vdldoc:deprecated. -->
+										<xsl:when test="javaee:tag-extension/vdldoc:deprecated or javaee:tag-extension/vdldoc:deprecation/vdldoc:deprecated = 'true'">
+											<del>
+												<xsl:value-of select="javaee:tag-name" />
+											</del>
 										</xsl:when>
 										<xsl:otherwise>
-											<td class="colOne" colspan="4">
-												<i>No Attributes Defined.</i>
-											</td>
+											<xsl:value-of select="javaee:tag-name" />
 										</xsl:otherwise>
 									</xsl:choose>
-								</tbody>
-							</table>
+								</h2>
+							</div>
+
+							<div class="contentContainer">
+
+								<!-- Tag Information -->
+								<div class="description">
+									<ul class="blockList">
+										<li class="blockList">
+											<dl>
+												<dt>Description:</dt>
+												<dd>
+													<div class="block">
+														<!-- vdldoc:deprecation is deprecated. It has been replaced by vdldoc:deprecated. -->
+														<xsl:if test="javaee:tag-extension/vdldoc:deprecated or javaee:tag-extension/vdldoc:deprecation/vdldoc:deprecated = 'true'">
+															<b>Deprecated. </b>
+															<xsl:choose>
+																<xsl:when test="javaee:tag-extension/vdldoc:deprecated">
+																	<xsl:value-of select="javaee:tag-extension/vdldoc:deprecated" />
+																</xsl:when>
+																<!-- vdldoc:deprecation is deprecated. It has been replaced by vdldoc:deprecated. -->
+																<xsl:when test="javaee:tag-extension/vdldoc:deprecation/vdldoc:deprecated = 'true'">
+																	<xsl:value-of select="javaee:tag-extension/vdldoc:deprecation/vdldoc:description" />
+																</xsl:when>
+															</xsl:choose>
+															<xsl:text>&#160;</xsl:text>
+														</xsl:if>
+														<xsl:choose>
+															<xsl:when test="normalize-space(javaee:description)">
+																<xsl:value-of select="javaee:description" disable-output-escaping="yes" />
+															</xsl:when>
+															<xsl:otherwise>
+																<i>No Description</i>
+															</xsl:otherwise>
+														</xsl:choose>
+													</div>
+												</dd>
+											</dl>
+										</li>
+									</ul>
+								</div>
+
+								<xsl:if test="normalize-space(javaee:tag-extension/vdldoc:since)">
+									<div class="since">
+										<ul class="blockList">
+											<li class="blockList">
+												<dl>
+													<dt>Since:</dt>
+													<dd>
+														<xsl:value-of select="javaee:tag-extension/vdldoc:since" disable-output-escaping="yes" />
+													</dd>
+												</dl>
+											</li>
+										</ul>
+									</div>
+								</xsl:if>
+
+								<xsl:if test="normalize-space(javaee:tag-extension/vdldoc:example-url)">
+									<div class="example-url">
+										<ul class="blockList">
+											<li class="blockList">
+												<dl>
+													<dt>Example usage of this component can be found at:</dt>
+													<br />
+													<dd>
+														<a href="{javaee:tag-extension/vdldoc:example-url}" target="_blank">
+															<xsl:value-of select="javaee:tag-extension/vdldoc:example-url" disable-output-escaping="yes" />
+														</a>
+													</dd>
+												</dl>
+											</li>
+										</ul>
+									</div>
+								</xsl:if>
+
+								<!-- Component Information -->
+								<xsl:if test="normalize-space(javaee:component)">
+									<xsl:apply-templates select="javaee:component" />
+								</xsl:if>
+
+								<!-- Behavior Information -->
+								<xsl:if test="normalize-space(javaee:behavior)">
+									<xsl:apply-templates select="javaee:behavior" />
+								</xsl:if>
+
+								<!-- Converter Information -->
+								<xsl:if test="normalize-space(javaee:converter)">
+									<xsl:apply-templates select="javaee:converter" />
+								</xsl:if>
+
+								<!-- Validator Information -->
+								<xsl:if test="normalize-space(javaee:validator)">
+									<xsl:apply-templates select="javaee:validator" />
+								</xsl:if>
+
+								<!-- Attribute Information -->
+								<div class="summary">
+									<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Attribute summary table, listing attribute information">
+										<caption>
+											<span>Attributes</span>
+											<span class="tabEnd">&#160;</span>
+										</caption>
+										<thead>
+											<tr>
+												<th class="colFirst">Name</th>
+												<th class="colOne">Required</th>
+												<th class="colOne">Type</th>
+												<th class="colLast">Description</th>
+											</tr>
+										</thead>
+										<tbody>
+											<xsl:choose>
+												<xsl:when test="count(javaee:attribute) > 0">
+													<xsl:apply-templates select="javaee:attribute" />
+												</xsl:when>
+												<xsl:otherwise>
+													<td class="colOne" colspan="4">
+														<i>No Attributes Defined.</i>
+													</td>
+												</xsl:otherwise>
+											</xsl:choose>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
 						</div>
+
 					</div>
 
 					<!-- ========= START OF BOTTOM NAVBAR ======= -->
@@ -274,34 +261,12 @@
 							<li><a href="../help-doc.html">Help</a></li>
 						</ul>
 					</div>
-					<div class="subNav">
-						<ul class="navList">
-							<li>
-								<a target="_bottom">
-									<xsl:attribute name="href">../index.html?<xsl:value-of select="$id" />/<xsl:value-of select="javaee:tag-name" />.html</xsl:attribute>
-									Frames
-								</a>
-							</li>
-							<li>
-								<a target="_bottom">
-									<xsl:attribute name="href"><xsl:value-of select="javaee:tag-name" />.html</xsl:attribute>
-									No Frames
-								</a>
-							</li>
-						</ul>
-						<ul class="navList" id="alltags_navbar_bottom">
-							<li><a href="../alltags-noframe.html">All Tags</a></li>
-						</ul>
-						<script type="text/javascript">
-							document.getElementById("alltags_navbar_bottom").style.display = (window == top) ? "block" : "none";
-						</script>
-						<a name="skip-navbar_bottom"></a>
-					</div>
 					<!-- ========= END OF BOTTOM NAVBAR ========= -->
 
 					<xsl:if test="/javaee:vdldoc/javaee:config/@hide-generated-by != 'true'">
 						<p class="about">Output generated by <a href="http://vdldoc.omnifaces.org" target="_blank">Vdldoc</a> View Declaration Language Documentation Generator.</p>
 					</xsl:if>
+					<xsl:call-template name="sidebar-scripts" />
 				</body>
 			</html>
 		</xsl:if>
