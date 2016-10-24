@@ -591,6 +591,9 @@ Sidebar styles
 .sidebar {
 	float:left;
 	width:20%;
+	height: 100%;
+	/*TODO come up with better boder style*/
+	border-right-style: solid;
 }
 
 .mainContent {

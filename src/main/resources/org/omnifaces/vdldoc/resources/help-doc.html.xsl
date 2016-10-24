@@ -101,10 +101,11 @@
 						<li class="blockList">
 							<h2>Library</h2>
 							<p>Each tag library has a page that contains a list of its tags and
-							functions, with a summary for each. This page can contain two categories:</p>
+							functions, with a summary for each. This page can contain three categories:</p>
 							<ul>
 								<li>Tags</li>
 								<li>Functions</li>
+								<li>EL Variables</li>
 							</ul>
 						</li>
 						<li class="blockList">
@@ -122,9 +123,10 @@
 							example use of the function.</p>
 						</li>
 						<li class="blockList">
-							<h2>Frames/No Frames</h2>
-							<p>These links show and hide the HTML frames. All pages are available with
-							or without frames.</p>
+							<h2>EL Variables</h2>
+							<p>A tag library can contain zero or more EL variables. If a tag library has
+							at least one EL variable, a page is generated that lists all EL variables, the
+							type of the variable, and an optional example use of the function.</p>
 						</li>
 					</ul>
 				</div>
