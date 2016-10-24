@@ -26,8 +26,15 @@
 <!--
  - TODO
  -
- - @author Bauke Scholtz
+ - @author Kyle Stiemann
 -->
+
+									<!-- TODO fix the windows line endings -->
+									<!--TODO add default template and insert content into it-->
+<!--									file:///Users/kylestiemann/Projects/omnifaces.org/vdldoc/target/vdldoc/alloy/audio.html
+									http://www.w3schools.com/xml/xsl_elementref.asp
+									https://github.com/omnifaces/vdldoc/issues/12
+									http://jsfiddle.net/t40pxetc/									-->
 <xsl:stylesheet
 	xmlns:javaee="http://xmlns.jcp.org/xml/ns/javaee"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -108,13 +115,7 @@
 										</a>
 									</li>
 								</xsl:if>
-								<xsl:if test="name() = 'el-variable'">
-									<!-- TODO figure out why this is failing -->
-									<!-- TODO fix the windows line endings -->
-<!--									file:///Users/kylestiemann/Projects/omnifaces.org/vdldoc/target/vdldoc/alloy/audio.html
-									http://www.w3schools.com/xml/xsl_elementref.asp
-									https://github.com/omnifaces/vdldoc/issues/12
-									http://jsfiddle.net/t40pxetc/									-->
+								<xsl:if test="name() = 'vdldoc:el-variable'">
 									<li>
 										<a>
 											<xsl:attribute name="href">../<xsl:value-of select="../../@id" />/<xsl:value-of select="vdldoc:el-variable-name" />.el.html</xsl:attribute>
