@@ -148,25 +148,25 @@
 				</div>
 
 
-						<!-- Component Information -->
-						<xsl:if test="normalize-space(javaee:component)">
-							<xsl:apply-templates select="javaee:component" />
-						</xsl:if>
+				<!-- Component Information -->
+				<xsl:if test="normalize-space(javaee:component)">
+					<xsl:apply-templates select="javaee:component" />
+				</xsl:if>
 
-						<!-- Behavior Information -->
-						<xsl:if test="normalize-space(javaee:behavior)">
-							<xsl:apply-templates select="javaee:behavior" />
-						</xsl:if>
+				<!-- Behavior Information -->
+				<xsl:if test="normalize-space(javaee:behavior)">
+					<xsl:apply-templates select="javaee:behavior" />
+				</xsl:if>
 
-						<!-- Converter Information -->
-						<xsl:if test="normalize-space(javaee:converter)">
-							<xsl:apply-templates select="javaee:converter" />
-						</xsl:if>
+				<!-- Converter Information -->
+				<xsl:if test="normalize-space(javaee:converter)">
+					<xsl:apply-templates select="javaee:converter" />
+				</xsl:if>
 
-						<!-- Validator Information -->
-						<xsl:if test="normalize-space(javaee:validator)">
-							<xsl:apply-templates select="javaee:validator" />
-						</xsl:if>
+				<!-- Validator Information -->
+				<xsl:if test="normalize-space(javaee:validator)">
+					<xsl:apply-templates select="javaee:validator" />
+				</xsl:if>
 
 				<!-- ======= START OF BOTTOM NAVBAR ====== -->
 				<div class="bottomNav">

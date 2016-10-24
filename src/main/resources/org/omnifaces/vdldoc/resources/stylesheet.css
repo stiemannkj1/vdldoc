@@ -581,21 +581,27 @@ Custom styles
 .about {
     text-align:center;
     font-style:italic;
+	float:left;
+	width:100%;
 }
 
 /**
 Sidebar styles
 */
 .sidebar {
-	float: left;
-	width: 20%;
+	float:left;
+	width:20%;
 }
 
 .mainContent {
-	float: left;
-	width: 77%;
+	float:left;
+	width:77%;
+}
+
+.mainContent.full {
+	width:97%;
 }
 
 .namespaceChildren {
-	display: none;
+	display:none;
 }

@@ -98,7 +98,9 @@
 					<!-- ========= END OF TOP NAVBAR ========= -->
 
 					<div>
-						<xsl:call-template name="sidebar" />
+						<xsl:call-template name="sidebar">
+							<xsl:with-param name="namespace" select="$id" />
+						</xsl:call-template>
 
 						<div class="mainContent">
 

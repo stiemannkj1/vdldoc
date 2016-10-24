@@ -39,32 +39,45 @@
 	<xsl:output method="html" />
 
 	<xsl:template name="sidebar-styles">
-		<style>
-			.namespace-children {
-				display: none;
-			}
-		</style>
 		<noscript>
 			<style>
-				.namespace-children {
-					display: block;
+				.namespaceChildren {
+					display:block;
+				}
+
+				.toggleSidebar {
+					display:none;
 				}
 			</style>
 		</noscript>
 	</xsl:template>
 
 	<xsl:template name="sidebar">
+		<xsl:param name="namespace" />
+		<div class="toggleSidebar subNav">
+			<ul class="navList">
+				<li>
+					<a>
+						<xsl:attribute name="onclick">toggleSidebar();</xsl:attribute>
+						<b>Toggle Sidebar</b>
+					</a>
+				</li>
+			</ul>
+		</div>
 		<div class="indexContainer sidebar">
 			<ul>
 				<xsl:for-each select="/javaee:vdldoc/javaee:facelet-taglib">
 					<xsl:sort select="@id" />
 					<li>
 						<a>
-							<xsl:attribute name="onclick">toggle('<xsl:value-of select="@id" />');</xsl:attribute>
+							<xsl:attribute name="onclick">toggleNamespace('<xsl:value-of select="@id" />');</xsl:attribute>
 							<b>Toggle <code><xsl:value-of select="@id" /></code> Namespace</b>
 						</a>
 						<ul class="namespaceChildren">
 							<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
+							<xsl:if test="$namespace = @id">
+								<xsl:attribute name="style">display: block;</xsl:attribute>
+							</xsl:if>
 							<xsl:for-each select="javaee:tag|javaee:function|javaee:taglib-extension/vdldoc:el-variable">
 								<xsl:sort select="javaee:tag-name" />
 								<xsl:sort select="javaee:function-name" />
@@ -129,7 +142,7 @@
 	<xsl:template name="sidebar-scripts">
 		<script type="text/javascript">
 			// <![CDATA[
-				function toggle(namespace) {
+				function toggleNamespace(namespace) {
 
 					var namespaceChildren = document.querySelectorAll('.namespaceChildren');
 
@@ -137,10 +150,23 @@
 
 						if (namespaceChildren[i].id !== namespace || namespaceChildren[i].style.display === 'block') {
 							namespaceChildren[i].style.display = 'none';
-						}
-						else {
+						} else {
 							namespaceChildren[i].style.display = 'block';
 						}
+					}
+				}
+
+				function toggleSidebar() {
+
+					var sidebar = document.querySelector('.sidebar');
+					var mainContent = document.querySelector('.mainContent');
+
+					if (sidebar.style.display === 'none') {
+						sidebar.style.display = null;
+						mainContent.className = mainContent.className.replace('full', '');
+					} else {
+						sidebar.style.display = 'none';
+						mainContent.className += ' full';
 					}
 				}
 			// ]]>
