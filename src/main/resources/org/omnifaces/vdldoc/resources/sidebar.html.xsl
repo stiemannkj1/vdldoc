@@ -110,6 +110,7 @@
 								</xsl:if>
 								<xsl:if test="name() = 'el-variable'">
 									<!-- TODO figure out why this is failing -->
+									<!-- TODO fix the windows line endings -->
 <!--									file:///Users/kylestiemann/Projects/omnifaces.org/vdldoc/target/vdldoc/alloy/audio.html
 									http://www.w3schools.com/xml/xsl_elementref.asp
 									https://github.com/omnifaces/vdldoc/issues/12
