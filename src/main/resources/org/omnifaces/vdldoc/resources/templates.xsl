@@ -24,22 +24,10 @@
 -->
 
 <!--
- - TODO
+ - Convienience templates to be used in other xsl:sylesheets to generate pages.
  -
- - @author Kyle Stiemann
--->
-<xsl:stylesheet
-	xmlns:javaee="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:vdldoc="http://vdldoc.omnifaces.org"
-	version="2.0"
->
+ - Example usage of these templates:
 
-	<xsl:output method="html" />
-
-	<!-- Example usage of these templates: -->
-	<!--
 	<xsl:include href="templates.xsl" />
 
 	<xsl:param name="id" />
@@ -73,7 +61,18 @@
 			</body>
 		</html>
 	</xsl:template>
-	-->
+
+ - @author Kyle Stiemann
+-->
+<xsl:stylesheet
+	xmlns:javaee="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:vdldoc="http://vdldoc.omnifaces.org"
+	version="2.0"
+>
+
+	<xsl:output method="html" />
 
 	<xsl:template name="head">
 		<xsl:param name="pageTitle" />
