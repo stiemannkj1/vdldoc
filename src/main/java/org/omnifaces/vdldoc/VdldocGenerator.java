@@ -549,11 +549,12 @@ public class VdldocGenerator {
 	private void generateOverview() throws TransformerException {
 		print("Generating overview pages... ");
 
-		generatePage(new File(outputDirectory, "index.html"), "index.html.xsl");
+		// Even though frames have been removed, build frame pages to ensure that old VDLdoc links are not broken.
+		generatePage(new File(outputDirectory, "index.html"), "overview-summary.html.xsl");
 		generatePage(new File(outputDirectory, "help-doc.html"), "help-doc.html.xsl");
-		generatePage(new File(outputDirectory, "overview-frame.html"), "overview-frame.html.xsl");
-		generatePage(new File(outputDirectory, "alltags-frame.html"), "alltags-frame.html.xsl");
-		generatePage(new File(outputDirectory, "alltags-noframe.html"), "alltags-noframe.html.xsl");
+		generatePage(new File(outputDirectory, "overview-frame.html"), "overview-summary.html.xsl");
+		generatePage(new File(outputDirectory, "alltags-frame.html"), "alltags.html.xsl");
+		generatePage(new File(outputDirectory, "alltags-noframe.html"), "alltags.html.xsl");
 		generatePage(new File(outputDirectory, "overview-summary.html"), "overview-summary.html.xsl");
 
 		println("OK!");
@@ -626,7 +627,8 @@ public class VdldocGenerator {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("id", id);
 
-		generatePage(new File(outputDirectory, "tld-frame.html"), "tld-frame.html.xsl", parameters);
+		// Even though frames have been removed, build frame pages to ensure that old VDLdoc links are not broken.
+		generatePage(new File(outputDirectory, "tld-frame.html"), "tld-summary.html.xsl", parameters);
 		generatePage(new File(outputDirectory, "tld-summary.html"), "tld-summary.html.xsl", parameters);
 	}
 

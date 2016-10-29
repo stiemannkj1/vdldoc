@@ -24,7 +24,7 @@
 -->
 
 <!--
- - Creates an overview summary (right frame), listing all tag libraries included in this generation.
+ - Creates an overview summary, listing all tag libraries included in this generation.
  -
  - @author Bauke Scholtz
 -->
@@ -38,168 +38,119 @@
 		doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/html4/loose.dtd" />
 
+	<xsl:include href="templates.xsl" />
+
 	<xsl:template match="/">
 		<html lang="en">
-			<head>
-				<title>
-					Overview (<xsl:value-of select="/javaee:vdldoc/javaee:config/javaee:window-title" />)
-				</title>
-				<link rel="stylesheet" type="text/css" title="Style">
-					<xsl:attribute name="href">
-						<xsl:value-of select="/javaee:vdldoc/javaee:config/@css-location" />
-					</xsl:attribute>
-				</link>
-			</head>
+			<xsl:call-template name="head">
+				<xsl:with-param name="pageTitle" select="'Overview'" />
+				<xsl:with-param name="cssLocation" select="/javaee:vdldoc/javaee:config/@css-location" />
+			</xsl:call-template>
 			<body>
-				<noscript>
-					<div>JavaScript is disabled on your browser.</div>
-				</noscript>
-
-				<!-- ========= START OF TOP NAVBAR ======= -->
-				<div class="topNav">
-					<a name="navbar_top"></a>
-					<a href="#skip-navbar_top" title="Skip navigation links"></a>
-					<a name="navbar_top_firstrow"></a>
-					<ul class="navList" title="Navigation">
-						<li class="navBarCell1Rev">Overview</li>
-						<li>Library</li>
-						<li>Tag</li>
-						<li><a href="help-doc.html">Help</a></li>
-					</ul>
-				</div>
-				<div class="subNav">
-					<ul class="navList">
-						<li><a href="index.html?overview-summary.html" target="_top">Frames</a></li>
-						<li><a href="overview-summary.html" target="_top">No Frames</a></li>
-					</ul>
-					<ul class="navList" id="alltags_navbar_top">
-						<li><a href="alltags-noframe.html">All Tags</a></li>
-					</ul>
-					<div>
-						<script type="text/javascript">
-							document.getElementById("alltags_navbar_top").style.display = (window == top) ? "block" : "none";
-						</script>
+				<xsl:call-template name="top-content">
+					<xsl:with-param name="pageType" select="'Overview'" />
+				</xsl:call-template>
+				<div>
+					<xsl:call-template name="sidebar-content">
+						<xsl:with-param name="pageType" select="'Overview'" />
+					</xsl:call-template>
+					<div id="main_content" class="mainContent">
+						<xsl:call-template name="main-content" />
 					</div>
-					<a name="skip-navbar_top"></a>
 				</div>
-				<!-- ========= END OF TOP NAVBAR ========= -->
-
-				<div class="header">
-					<h1 class="title">
-						<xsl:value-of select="/javaee:vdldoc/javaee:config/javaee:doc-title" />
-					</h1>
-				</div>
-				<div class="contentContainer">
-					<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Tag Library table, listing tag libraries, and an explanation">
-						<caption>
-							<span>Tag Libraries</span>
-							<span class="tabEnd">&#160;</span>
-						</caption>
-						<thead>
-							<tr>
-								<th class="colFirst" scope="col">Library</th>
-								<th class="colLast" scope="col">Description</th>
-							</tr>
-						</thead>
-						<tbody>
-							<xsl:apply-templates select="/javaee:vdldoc/javaee:facelet-taglib" />
-						</tbody>
-					</table>
-
-					<xsl:if test="count(/javaee:vdldoc/javaee:faces-config/javaee:managed-bean) > 0">
-						<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Managed bean table, listing managed beans, and an explanation">
-							<caption>
-								<span>Managed beans</span>
-								<span class="tabEnd">&#160;</span>
-							</caption>
-							<thead>
-								<tr>
-									<th class="colFirst" scope="col">Name</th>
-									<th class="colOne" scope="col">Class</th>
-									<th class="colOne" scope="col">Scope</th>
-									<th class="colLast" scope="col">Description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates select="/javaee:vdldoc/javaee:faces-config/javaee:managed-bean" />
-							</tbody>
-						</table>
-					</xsl:if>
-
-					<xsl:if test="count(/javaee:vdldoc/javaee:faces-config/javaee:validator) > 0">
-						<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Components table, listing component, and an explanation">
-							<caption>
-								<span>Validators</span>
-								<span class="tabEnd">&#160;</span>
-							</caption>
-							<thead>
-								<tr>
-									<th class="colFirst" scope="col">Name</th>
-									<th class="colOne" scope="col">Class</th>
-									<th class="colOne" scope="col">Scope</th>
-									<th class="colLast" scope="col">Description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates select="/javaee:vdldoc/javaee:faces-config/javaee:behavior" />
-							</tbody>
-						</table>
-					</xsl:if>
-				</div>
-
-
-				<!-- Component Information -->
-				<xsl:if test="normalize-space(javaee:component)">
-					<xsl:apply-templates select="javaee:component" />
-				</xsl:if>
-
-				<!-- Behavior Information -->
-				<xsl:if test="normalize-space(javaee:behavior)">
-					<xsl:apply-templates select="javaee:behavior" />
-				</xsl:if>
-
-				<!-- Converter Information -->
-				<xsl:if test="normalize-space(javaee:converter)">
-					<xsl:apply-templates select="javaee:converter" />
-				</xsl:if>
-
-				<!-- Validator Information -->
-				<xsl:if test="normalize-space(javaee:validator)">
-					<xsl:apply-templates select="javaee:validator" />
-				</xsl:if>
-
-				<!-- ======= START OF BOTTOM NAVBAR ====== -->
-				<div class="bottomNav">
-					<a name="navbar_bottom"></a>
-					<a href="#skip-navbar_bottom" title="Skip navigation links"></a>
-					<a name="navbar_bottom_firstrow"></a>
-					<ul class="navList" title="Navigation">
-						<li class="navBarCell1Rev">Overview</li>
-						<li>Library</li>
-						<li>Tag</li>
-						<li><a href="help-doc.html">Help</a></li>
-					</ul>
-				</div>
-				<div class="subNav">
-					<ul class="navList">
-						<li><a href="index.html?overview-summary.html" target="_top">Frames</a></li>
-						<li><a href="overview-summary.html" target="_top">No Frames</a></li>
-					</ul>
-					<ul class="navList" id="alltags_navbar_bottom">
-						<li><a href="alltags-noframe.html">All Tags</a></li>
-					</ul>
-					<script type="text/javascript">
-						document.getElementById("alltags_navbar_bottom").style.display = (window == top) ? "block" : "none";
-					</script>
-					<a name="skip-navbar_bottom"></a>
-				</div>
-				<!-- ======== END OF BOTTOM NAVBAR ======= -->
-
-				<xsl:if test="/javaee:vdldoc/javaee:config/@hide-generated-by != 'true'">
-					<p class="about">Output generated by <a href="http://vdldoc.omnifaces.org" target="_blank">Vdldoc</a> View Declaration Language Documentation Generator.</p>
-				</xsl:if>
+				<xsl:call-template name="bottom-content">
+					<xsl:with-param name="pageType" select="'Overview'" />
+				</xsl:call-template>
 			</body>
 		</html>
+	</xsl:template>
+
+	<xsl:template name="main-content">
+
+		<div class="header">
+			<h1 class="title">
+				<xsl:value-of select="/javaee:vdldoc/javaee:config/javaee:doc-title" />
+			</h1>
+		</div>
+		<div class="contentContainer">
+			<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Tag Library table, listing tag libraries, and an explanation">
+				<caption>
+					<span>Tag Libraries</span>
+					<span class="tabEnd">&#160;</span>
+				</caption>
+				<thead>
+					<tr>
+						<th class="colFirst" scope="col">Library</th>
+						<th class="colLast" scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates select="/javaee:vdldoc/javaee:facelet-taglib" />
+				</tbody>
+			</table>
+
+			<xsl:if test="count(/javaee:vdldoc/javaee:faces-config/javaee:managed-bean) > 0">
+				<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Managed bean table, listing managed beans, and an explanation">
+					<caption>
+						<span>Managed beans</span>
+						<span class="tabEnd">&#160;</span>
+					</caption>
+					<thead>
+						<tr>
+							<th class="colFirst" scope="col">Name</th>
+							<th class="colOne" scope="col">Class</th>
+							<th class="colOne" scope="col">Scope</th>
+							<th class="colLast" scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<xsl:apply-templates select="/javaee:vdldoc/javaee:faces-config/javaee:managed-bean" />
+					</tbody>
+				</table>
+			</xsl:if>
+
+			<xsl:if test="count(/javaee:vdldoc/javaee:faces-config/javaee:validator) > 0">
+				<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Components table, listing component, and an explanation">
+					<caption>
+						<span>Validators</span>
+						<span class="tabEnd">&#160;</span>
+					</caption>
+					<thead>
+						<tr>
+							<th class="colFirst" scope="col">Name</th>
+							<th class="colOne" scope="col">Class</th>
+							<th class="colOne" scope="col">Scope</th>
+							<th class="colLast" scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<xsl:apply-templates select="/javaee:vdldoc/javaee:faces-config/javaee:behavior" />
+					</tbody>
+				</table>
+			</xsl:if>
+		</div>
+
+
+		<!-- Component Information -->
+		<xsl:if test="normalize-space(javaee:component)">
+			<xsl:apply-templates select="javaee:component" />
+		</xsl:if>
+
+		<!-- Behavior Information -->
+		<xsl:if test="normalize-space(javaee:behavior)">
+			<xsl:apply-templates select="javaee:behavior" />
+		</xsl:if>
+
+		<!-- Converter Information -->
+		<xsl:if test="normalize-space(javaee:converter)">
+			<xsl:apply-templates select="javaee:converter" />
+		</xsl:if>
+
+		<!-- Validator Information -->
+		<xsl:if test="normalize-space(javaee:validator)">
+			<xsl:apply-templates select="javaee:validator" />
+		</xsl:if>
+
 	</xsl:template>
 
 	<xsl:template match="javaee:managed-bean">
@@ -260,4 +211,5 @@
 			</td>
 		</tr>
 	</xsl:template>
+
 </xsl:stylesheet>

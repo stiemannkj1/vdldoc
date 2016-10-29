@@ -38,232 +38,141 @@
 		doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/html4/loose.dtd" />
 
-	<xsl:param name="id">
-		default
-	</xsl:param>
-	<xsl:param name="functionName">
-		default
-	</xsl:param>
+	<xsl:include href="templates.xsl" />
+
+	<xsl:param name="id" />
+	<xsl:param name="functionName" />
 
 	<xsl:template match="/">
-		<xsl:apply-templates select="javaee:vdldoc/javaee:facelet-taglib" />
+		<html lang="en">
+			<xsl:call-template name="head">
+				<xsl:with-param name="pageTitle" select="$functionName" />
+				<xsl:with-param name="cssLocation" select="/javaee:vdldoc/javaee:config/@subfolder-css-location" />
+			</xsl:call-template>
+			<body>
+				<xsl:call-template name="top-content">
+					<xsl:with-param name="pageType" select="'Function'" />
+				</xsl:call-template>
+				<div>
+					<xsl:call-template name="sidebar-content">
+						<xsl:with-param name="namespace" select="$id" />
+						<xsl:with-param name="pageType" select="'Function'" />
+					</xsl:call-template>
+
+					<div id="main_content" class="mainContent">
+						<xsl:apply-templates select="/javaee:vdldoc/javaee:facelet-taglib[@id=$id]/javaee:function/javaee:function-name[text()=$functionName]/parent::javaee:function" />
+					</div>
+
+				</div>
+				<xsl:call-template name="bottom-content">
+					<xsl:with-param name="pageType" select="'Function'" />
+				</xsl:call-template>
+			</body>
+		</html>
 	</xsl:template>
 
-	<xsl:template match="javaee:facelet-taglib">
-		<xsl:if test="@id = $id">
-			<xsl:apply-templates select="javaee:function" />
-		</xsl:if>
+	<xsl:template match="/javaee:vdldoc/javaee:facelet-taglib/javaee:function">
+
+		<div class="header">
+			<h1 title="Library" class="title">
+				<xsl:value-of select="$id" />
+			</h1>
+			<h2 class="title">
+				Function <xsl:value-of select="javaee:function-name" />
+			</h2>
+		</div>
+
+		<div class="contentContainer">
+			<div class="description">
+				<ul class="blockList">
+					<li class="blockList">
+						<dl>
+							<dt>Signature:</dt>
+							<dd>
+								<code>
+									<xsl:value-of select='substring-before(normalize-space(javaee:function-signature)," ")' />
+									<b>&#160;<xsl:value-of select="javaee:function-name" /></b>(<xsl:value-of select='substring-after(normalize-space(javaee:function-signature),"(")' />
+								</code>
+							</dd>
+						</dl>
+
+						<dl>
+							<dt>Description:</dt>
+							<dd>
+								<div class="block">
+									<xsl:choose>
+										<xsl:when test="normalize-space(javaee:description)">
+											<xsl:value-of select="javaee:description" disable-output-escaping="yes" />
+										</xsl:when>
+										<xsl:otherwise>
+											<i>No Description</i>
+										</xsl:otherwise>
+									</xsl:choose>
+								</div>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+
+			<div class="detail">
+				<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0"
+					summary="Function Summary table, listing function information">
+					<caption>
+						<span>Function Information</span>
+						<span class="tabEnd">&#160;</span>
+					</caption>
+					<thead>
+						<tr>
+							<th class="colFirst" scope="col">Info</th>
+							<th class="colLast" scope="col">Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="rowColor">
+							<td class="colFirst">Function Class</td>
+							<td class="colLast">
+								<xsl:choose>
+									<xsl:when test="normalize-space(javaee:function-class)">
+										<code><xsl:value-of select="javaee:function-class" /></code>
+									</xsl:when>
+									<xsl:otherwise>
+										<i>None</i>
+									</xsl:otherwise>
+								</xsl:choose>
+							</td>
+						</tr>
+						<tr class="altColor">
+							<td class="colFirst">Function Signature</td>
+							<td class="colLast">
+								<xsl:choose>
+									<xsl:when test="normalize-space(javaee:function-signature)">
+										<code><xsl:value-of select="javaee:function-signature" /></code>
+									</xsl:when>
+									<xsl:otherwise>
+										<i>None</i>
+									</xsl:otherwise>
+								</xsl:choose>
+							</td>
+						</tr>
+						<tr class="rowColor">
+							<td class="colFirst">Display Name</td>
+							<td class="colLast">
+								<xsl:choose>
+									<xsl:when test="normalize-space(javaee:display-name)">
+										<xsl:value-of select="javaee:display-name" />
+									</xsl:when>
+									<xsl:otherwise>
+										<i>None</i>
+									</xsl:otherwise>
+								</xsl:choose>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
 	</xsl:template>
 
-	<xsl:template match="javaee:function">
-		<xsl:if test="javaee:function-name = $functionName">
-			<xsl:variable name="title">
-				<xsl:value-of select="javaee:function-name" /> (<xsl:value-of select="/javaee:vdldoc/javaee:config/javaee:window-title" />)
-			</xsl:variable>
-
-			<html lang="en">
-				<head>
-					<title>
-						<xsl:value-of select="$title" />
-					</title>
-					<meta name="keywords" content="$title" />
-					<link rel="stylesheet" type="text/css" title="Style">
-						<xsl:attribute name="href">
-							<xsl:value-of select="/javaee:vdldoc/javaee:config/@subfolder-css-location" />
-						</xsl:attribute>
-					</link>
-					<!--<xsl:include href="sidebar-styles.html.xsl" />-->
-				</head>
-				<body>
-					<noscript>
-						<div>JavaScript is disabled on your browser.</div>
-					</noscript>
-
-					<!-- ========= START OF TOP NAVBAR ======= -->
-					<div class="topNav">
-						<a name="navbar_top"></a>
-						<a href="#skip-navbar_top" title="Skip navigation links"></a>
-						<a name="navbar_top_firstrow"></a>
-						<ul class="navList" title="Navigation">
-							<li><a href="../overview-summary.html">Overview</a></li>
-							<li><a href="tld-summary.html">Library</a></li>
-							<li class="navBarCell1Rev">Tag</li>
-							<li><a href="../help-doc.html">Help</a></li>
-						</ul>
-					</div>
-					<div class="subNav">
-						<ul class="navList">
-							<li>
-								<a href="_top">
-									<xsl:attribute name="href">../index.html?<xsl:value-of select="$id" />/<xsl:value-of select="javaee:function-name" />.fn.html</xsl:attribute>
-									Frames
-								</a>
-							</li>
-							<li>
-								<a href="_top">
-									<xsl:attribute name="href"><xsl:value-of select="javaee:function-name" />.fn.html</xsl:attribute>
-									No Frames
-								</a>
-							</li>
-						</ul>
-						<ul class="navList" id="alltags_navbar_top">
-							<li><a href="../alltags-noframe.html">All Tags</a></li>
-						</ul>
-						<div>
-							<script type="text/javascript">
-								document.getElementById("alltags_navbar_top").style.display = (window == top) ? "block" : "none";
-							</script>
-						</div>
-						<a name="skip-navbar_top"></a>
-					</div>
-					<!-- ========= END OF TOP NAVBAR ========= -->
-
-					<div class="header">
-						<h1 title="Library" class="title">
-							<xsl:value-of select="$id" />
-						</h1>
-						<h2 class="title">
-							Function <xsl:value-of select="javaee:function-name" />
-						</h2>
-					</div>
-
-					<div class="sidebar">
-						<xsl:include href="sidebar.html.xsl" />
-					</div>
-
-					<div class="contentContainer">
-						<div class="description">
-							<ul class="blockList">
-								<li class="blockList">
-									<dl>
-										<dt>Signature:</dt>
-										<dd>
-											<code>
-												<xsl:value-of select='substring-before(normalize-space(javaee:function-signature)," ")' />
-												<b>&#160;<xsl:value-of select="javaee:function-name" /></b>(<xsl:value-of select='substring-after(normalize-space(javaee:function-signature),"(")' />
-											</code>
-										</dd>
-									</dl>
-
-									<dl>
-										<dt>Description:</dt>
-										<dd>
-											<div class="block">
-												<xsl:choose>
-													<xsl:when test="normalize-space(javaee:description)">
-														<xsl:value-of select="javaee:description" disable-output-escaping="yes" />
-													</xsl:when>
-													<xsl:otherwise>
-														<i>No Description</i>
-													</xsl:otherwise>
-												</xsl:choose>
-											</div>
-										</dd>
-									</dl>
-								</li>
-							</ul>
-						</div>
-
-						<div class="detail">
-							<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0"
-								summary="Function Summary table, listing function information">
-								<caption>
-									<span>Function Information</span>
-									<span class="tabEnd">&#160;</span>
-								</caption>
-								<thead>
-									<tr>
-										<th class="colFirst" scope="col">Info</th>
-										<th class="colLast" scope="col">Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="rowColor">
-										<td class="colFirst">Function Class</td>
-										<td class="colLast">
-											<xsl:choose>
-												<xsl:when test="normalize-space(javaee:function-class)">
-													<code><xsl:value-of select="javaee:function-class" /></code>
-												</xsl:when>
-												<xsl:otherwise>
-													<i>None</i>
-												</xsl:otherwise>
-											</xsl:choose>
-										</td>
-									</tr>
-									<tr class="altColor">
-										<td class="colFirst">Function Signature</td>
-										<td class="colLast">
-											<xsl:choose>
-												<xsl:when test="normalize-space(javaee:function-signature)">
-													<code><xsl:value-of select="javaee:function-signature" /></code>
-												</xsl:when>
-												<xsl:otherwise>
-													<i>None</i>
-												</xsl:otherwise>
-											</xsl:choose>
-										</td>
-									</tr>
-									<tr class="rowColor">
-										<td class="colFirst">Display Name</td>
-										<td class="colLast">
-											<xsl:choose>
-												<xsl:when test="normalize-space(javaee:display-name)">
-													<xsl:value-of select="javaee:display-name" />
-												</xsl:when>
-												<xsl:otherwise>
-													<i>None</i>
-												</xsl:otherwise>
-											</xsl:choose>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-					<!-- ========= START OF BOTTOM NAVBAR ======= -->
-					<div class="bottomNav">
-						<a name="navbar_bottom"></a>
-						<a href="#skip-navbar_bottom" title="Skip navigation links"></a>
-						<a name="navbar_bottom_firstrow"></a>
-						<ul class="navList" title="Navigation">
-							<li><a href="../overview-summary.html">Overview</a></li>
-							<li><a href="tld-summary.html">Library</a></li>
-							<li class="navBarCell1Rev">Tag</li>
-							<li><a href="../help-doc.html">Help</a></li>
-						</ul>
-					</div>
-					<div class="subNav">
-						<ul class="navList">
-							<li>
-								<a href="_top">
-									<xsl:attribute name="href">../index.html?<xsl:value-of select="$id" />/<xsl:value-of select="javaee:function-name" />.fn.html</xsl:attribute>
-									Frames
-								</a>
-							</li>
-							<li>
-								<a href="_top">
-									<xsl:attribute name="href"><xsl:value-of select="javaee:function-name" />.fn.html</xsl:attribute>
-									No Frames
-								</a>
-							</li>
-						</ul>
-						<ul class="navList" id="alltags_navbar_bottom">
-							<li><a href="../alltags-noframe.html">All Tags</a></li>
-						</ul>
-						<script type="text/javascript">
-							document.getElementById("alltags_navbar_bottom").style.display = (window == top) ? "block" : "none";
-						</script>
-						<a name="skip-navbar_bottom"></a>
-					</div>
-					<!-- ========= END OF BOTTOM NAVBAR ========= -->
-
-					<xsl:if test="/javaee:vdldoc/javaee:config/@hide-generated-by != 'true'">
-						<p class="about">Output generated by <a href="http://vdldoc.omnifaces.org" target="_blank">Vdldoc</a> View Declaration Language Documentation Generator.</p>
-					</xsl:if>
-				</body>
-			</html>
-		</xsl:if>
-	</xsl:template>
 </xsl:stylesheet>
