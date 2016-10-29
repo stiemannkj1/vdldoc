@@ -647,8 +647,12 @@ public class VdldocGenerator {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("id", id);
 
-		// Even though frames have been removed, build frame pages to ensure that old VDLdoc links are not broken.
-		generatePage(new File(outputDirectory, "tld-frame.html"), "tld-summary.html.xsl", parameters);
+		if (enableFramePages) {
+
+			// Even though frames have been removed, build frame pages to ensure that old VDLdoc links are not broken.
+			generatePage(new File(outputDirectory, "tld-frame.html"), "tld-summary.html.xsl", parameters);
+		}
+
 		generatePage(new File(outputDirectory, "tld-summary.html"), "tld-summary.html.xsl", parameters);
 	}
 
