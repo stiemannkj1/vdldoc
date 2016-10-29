@@ -28,14 +28,6 @@
  -
  - @author Kyle Stiemann
 -->
-
-									<!-- TODO fix the windows line endings -->
-									<!--TODO add default template and insert content into it-->
-<!--									file:///Users/kylestiemann/Projects/omnifaces.org/vdldoc/target/vdldoc/alloy/audio.html
-									http://www.w3schools.com/xml/xsl_elementref.asp
-									https://github.com/omnifaces/vdldoc/issues/12
-									http://jsfiddle.net/t40pxetc/		
-									http://stackoverflow.com/questions/5656129/xslt-call-template-with-dynamic-qname-->
 <xsl:stylesheet
 	xmlns:javaee="http://xmlns.jcp.org/xml/ns/javaee"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -66,7 +58,7 @@
 				</xsl:call-template>
 				<div>
 					<xsl:call-template name="sidebar-content">
-						<xsl:with-param name="namespace" select="$id" />
+						OPTIONAL: <xsl:with-param name="namespace" select="$id" />
 						<xsl:with-param name="type" select="...YOUR PAGE TYPE HERE..." />
 					</xsl:call-template>
 

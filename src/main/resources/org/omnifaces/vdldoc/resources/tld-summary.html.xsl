@@ -56,10 +56,11 @@
 				</xsl:call-template>
 				<div>
 					<xsl:call-template name="sidebar-content">
+						<xsl:with-param name="namespace" select="$id" />
 						<xsl:with-param name="pageType" select="'Library'" />
 					</xsl:call-template>
 					<div id="main_content" class="mainContent">
-						<xsl:apply-templates name="/javaee:vdldoc/javaee:facelet-taglib[@id=$id]" />
+						<xsl:apply-templates select="/javaee:vdldoc/javaee:facelet-taglib[@id=$id]" />
 					</div>
 				</div>
 				<xsl:call-template name="bottom-content">
@@ -255,8 +256,8 @@
 					<xsl:text>&#160;</xsl:text>
 				</xsl:if>
 				<xsl:choose>
-					<xsl:when test="normalize-space(javaee:description)">
-						<xsl:value-of select="javaee:description" disable-output-escaping="yes" />
+					<xsl:when test="normalize-space(vdldoc:description)">
+						<xsl:value-of select="vdldoc:description" disable-output-escaping="yes" />
 					</xsl:when>
 					<xsl:otherwise>
 						<i>No Description</i>
