@@ -131,17 +131,17 @@
 		<ul class="navList" title="Navigation">
 			<li>
 				<xsl:choose>
-					<xsl:when test="$pageType = 'Overview'">
+					<xsl:when test="$pageType = 'Index'">
 						<xsl:attribute name="class">navBarCell1Rev</xsl:attribute>
 						Overview
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
 							<xsl:when test="$pageType != 'All Tags' and $pageType != 'Help'">
-								<a href="../overview-summary.html">Overview</a>
+								<a href="../index.html">Overview</a>
 							</xsl:when>
 							<xsl:otherwise>
-								<a href="overview-summary.html">Overview</a>
+								<a href="index.html">Overview</a>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
@@ -149,7 +149,7 @@
 			</li>
 			<li>
 				<xsl:choose>
-					<xsl:when test="$pageType = '' or $pageType = 'All Tags' or $pageType = 'Library' or $pageType = 'Help' or $pageType = 'Overview'">
+					<xsl:when test="$pageType = '' or $pageType = 'All Tags' or $pageType = 'Library' or $pageType = 'Help' or $pageType = 'Index'">
 						<xsl:if test="$pageType = 'Library'">
 							<xsl:attribute name="class">navBarCell1Rev</xsl:attribute>
 						</xsl:if>
@@ -162,7 +162,7 @@
 			</li>
 			<li>
 				<xsl:choose>
-					<xsl:when test="$pageType != '' and $pageType != 'All Tags' and $pageType != 'Help' and $pageType != 'Library' and $pageType != 'Overview'">
+					<xsl:when test="$pageType != '' and $pageType != 'All Tags' and $pageType != 'Help' and $pageType != 'Library' and $pageType != 'Index'">
 						<xsl:attribute name="class">navBarCell1Rev</xsl:attribute>
 						<xsl:value-of select="$pageType" />
 					</xsl:when>
@@ -179,7 +179,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
-							<xsl:when test="$pageType != 'All Tags' and $pageType != 'Overview'">
+							<xsl:when test="$pageType != 'All Tags' and $pageType != 'Index'">
 								<a href="../help-doc.html">Help</a>
 							</xsl:when>
 							<xsl:otherwise>
@@ -199,7 +199,7 @@
 		<xsl:param name="pageType" />
 		<xsl:variable name="pathPrefix">
 			<xsl:choose>
-				<xsl:when test="$pageType != '' and $pageType != 'All Tags' and $pageType != 'Help' and $pageType != 'Overview'">../</xsl:when>
+				<xsl:when test="$pageType != '' and $pageType != 'All Tags' and $pageType != 'Help' and $pageType != 'Index'">../</xsl:when>
 				<xsl:otherwise></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>

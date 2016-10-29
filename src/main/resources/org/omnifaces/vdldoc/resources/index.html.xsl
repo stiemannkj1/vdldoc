@@ -48,18 +48,18 @@
 			</xsl:call-template>
 			<body>
 				<xsl:call-template name="top-content">
-					<xsl:with-param name="pageType" select="'Overview'" />
+					<xsl:with-param name="pageType" select="'Index'" />
 				</xsl:call-template>
 				<div>
 					<xsl:call-template name="sidebar-content">
-						<xsl:with-param name="pageType" select="'Overview'" />
+						<xsl:with-param name="pageType" select="'Index'" />
 					</xsl:call-template>
 					<div id="main_content" class="mainContent">
 						<xsl:call-template name="main-content" />
 					</div>
 				</div>
 				<xsl:call-template name="bottom-content">
-					<xsl:with-param name="pageType" select="'Overview'" />
+					<xsl:with-param name="pageType" select="'Index'" />
 				</xsl:call-template>
 			</body>
 		</html>
